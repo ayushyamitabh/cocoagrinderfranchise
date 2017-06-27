@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto:400,500");
+*{
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  user-select: none;
+}
+.left {
+  text-align: center;
+  display: inline;
+  position: absolute;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  transition: all ease-out 0.5s;
+}
+.left h1 {
+  text-align: center;
+  font-weight: 400;
+  margin-top: 4rem;
+  font-size: 4rem;
+  color: gray;
+  transition: all linear 0.3s;
+}
+.left h5 {
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: gray;
+  transition: all linear 0.3s;
+}
+.left h2 {
+  text-align: center;
+  font-weight: 400;
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+}
+.left .title-underline{
+  position: relative;
+  margin: 0 auto;
+  width: 0%;
+  height: 0.1rem;
+  background-color: gray;
+  transition: all ease-out 0.45s;
+}
+.left:hover .title-underline {
+    width: 35%;
+}
+.left:hover h2{
+  color: gray;
+}
+.left:hover h1{
+  color: black;
+}
+.left:hover h5{
+  color: black;
+}
+.left:hover {
+  width: 60%;
+}
+.left .form{
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 5vh;
+  padding: 5vh;
+  transition: all ease-out 0.3s;
+  color: white;
+}
+.left .form:hover{
+  background-color: #E3EDED;
+}
+.left>div hr:nth-child(2){
+  border-color: black !important;
+}
+.left .logingoogle img{
+  width: 16px;
+  height: 16px;
+}
+.left:hover ~ .right{
+  width: 40%;
+}
+.right {
+  display: inline;
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-color: black;
+  background-image: url('./res/coffee.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: all ease-out 0.5s;
+}
+@media (max-width:1024px) {
+  .left h1{
+    font-size: 3rem;
+  }
+  .left h5{
+    font-size: 0.7rem;
+  }
+}
+@media (max-width:768px) {
+  .right{
+    display: none;
+  }
+  .left{
+    color: white !important;
+    width: 100%;
+    background: url('./res/coffee.jpg');
+  }
+  .left:hover{
+    width: 100%;
+  }
+  .left:hover h1{
+    color: white;
+  }
+  .left:hover h5{
+    color: white;
+  }
+  .left .form{
+    background-color: white;
+  }
+}
+@media (max-width:375px) {
+  .left h1{
+    font-size: 2rem;
+  }
+  .left h2 {
+    font-size: 1rem;
+  }
+  .left h5 {
+    font-size: 0.6rem;
+  }
+}
+@media (max-width:320px) {
+  .left .form span{
+    font-size: 0.7rem !important;
+  }
+}
