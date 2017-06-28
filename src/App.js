@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Login from './Login.js';
 import $ from 'jquery';
-import {FlatButton, Divider, DatePicker, TextField} from 'material-ui';
+import {FlatButton, Divider, DatePicker, TextField, SelectField, MenuItem} from 'material-ui';
 import './App.css';
 
 let DateTimeFormat = global.Intl.DateTimeFormat;
@@ -37,52 +37,53 @@ class App extends Component {
         {
           this.state.page === 'login' ? <Login changePage={this.pageChanger} /> :
           <div className="signup-page">
+            <h1>FRANCHISEE SIGN-UP</h1>
+            <h5>CREATE AN ACCOUNT TO GET STARTED WITH COCOAGRINDER FRANCHISE</h5>
             <FlatButton onClick={this.toLogin} fullWidth={true} className="toLogin" label="Back to Login" />
+            <DatePicker
+              className="date"
+              hintText="Date"
+              value={this.state.date}
+              formatDate={new DateTimeFormat('en-US', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',}).format}
+            />
             <Divider className="divider"/>
             <h6>PERSONAL INFORMATION</h6>
-            <DatePicker className="date" hintText="Date" value={this.state.date} formatDate={new DateTimeFormat('en-US', {day: 'numeric', month: 'long', year: 'numeric',}).format}/>
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="bname"
               floatingLabelText="Legal Business Name" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="tname"
               floatingLabelText="Business Trade Name" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="address"
               floatingLabelText="Address" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="city"
               floatingLabelText="City" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="state"
               floatingLabelText="State" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="zip"
               floatingLabelText="Zip" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="lphone"
               floatingLabelText="Location Phone" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="contact"
               floatingLabelText="Primary Contact" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="phone"
               floatingLabelText="Primary Phone" />
@@ -95,27 +96,31 @@ class App extends Component {
               id="altphone"
               floatingLabelText="Alternate Phone" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="email"
               floatingLabelText="E-mail" />
             <Divider className="divider" />
             <h6>BILLING INFORMATION</h6>
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="billingcontact"
               floatingLabelText="Billing Contact" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="billingphone"
               floatingLabelText="Billing Phone" />
             <TextField
-              errorText="Required."
               fullWidth={true}
               id="billingemail"
               floatingLabelText="Billing E-mail" />
+            <SelectField
+              floatingLabelText="Tax Classification"
+              value={this.state.value}
+              fullWidth={true}
+            >
+              <MenuItem value={1} primaryText="TAX ID Number" />
+              <MenuItem value={2} primaryText="ITIN Number" />
+            </SelectField>
           </div>
         }
       </div>
