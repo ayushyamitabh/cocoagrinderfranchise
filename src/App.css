@@ -11,6 +11,7 @@ body{
   background-size: cover;
 }
 .left {
+  text-align: center;
   display: inline;
   position: absolute;
   left: 0;
@@ -171,17 +172,22 @@ body{
   transition: all ease-out 0.3s;
 }
 .signup-page {
+  text-align: left;
   position: relative;
   width: 60% !important;
   padding: 0 20% 5% 20%;
   margin: 0 !important;
   background-color: white;
 }
+.signup-page .divider {
+  background-color: black !important;
+}
 .signup-page h1{
   margin: 0 !important;
   margin-top: 3% !important;
 }
 .signup-page h5{
+  text-align: center;
   margin-bottom: 3% !important;
 }
 .signup-page .toLogin>div{
