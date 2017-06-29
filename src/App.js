@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Login from './Login.js';
 import Signup from './Signup.js';
+import Shop from './Shop.js';
 import $ from 'jquery';
 import './App.css';
 
@@ -27,6 +28,8 @@ class App extends Component {
     },1000);
   }
   toShop(){
+    $('.left').addClass('left-signup');
+    $('.right').addClass('right-signup');
     this.setState({page:'logged'})
   }
   render() {
@@ -38,7 +41,7 @@ class App extends Component {
         {
           this.state.page === 'login' ? <Login toSignup={this.toSignup} toShop={this.toShop}/> :
           this.state.page === 'signup' ? <Signup toLogin={this.toLogin} toShop={this.toShop}/> :
-          this.state.page === 'logged' ? <div>Signed In, shop will appear here</div> :
+          this.state.page === 'logged' ? <Shop toLogin={this.toLogin} /> :
           <div> Something went wrong </div>
         }
       </div>

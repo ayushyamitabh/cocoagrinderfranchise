@@ -10,6 +10,10 @@ body{
   background-repeat: round;
   background-size: cover;
 }
+.loading{
+  position: relative !important;
+  width: 100% !important;
+}
 .left {
   text-align: center;
   display: inline;
@@ -162,6 +166,7 @@ body{
 }
 .left-signup {
   width: 100% !important;
+  height: auto !important;
   transition: all ease-out 0.3s;
 }
 .left-signup:hover .title-underline{
