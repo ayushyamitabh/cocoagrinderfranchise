@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {FlatButton, RaisedButton, Divider, DatePicker, TextField, SelectField, MenuItem} from 'material-ui';
+import * as firebase from 'firebase';
+import $ from 'jquery';
 
 let DateTimeFormat = global.Intl.DateTimeFormat;
 
@@ -10,9 +12,33 @@ class Signup extends Component {
       date: new Date()
     };
     this.handleOption = this.handleOption.bind(this);
+    this.signup = this.signup.bind(this);
   }
   handleOption(event){
     console.log(event);
+  }
+  signup(e){
+    e.preventDefault();
+    var formData = {};
+    $('input').each(function(){
+      formData[this.name] = this.value;
+    })
+    formData['btype'] = this.state.btype;
+    formData['deldetails'] = document.getElementById('deldetails').value;
+    firebase.auth().createUserWithEmailAndPassword(formData.loginemail, formData.loginpassword).then((user)=>{
+      firebase.database().ref(`Users/${user.uid}`).set(formData).then(()=>{
+        user.updateProfile({
+          displayName: formData.username
+        }).then(()=>{
+          console.log("Profile updated");
+          this.props.toShop();
+        }, (error)=>{
+          console.log("Error updating profile");
+        });
+      })
+    }, (error)=>{
+      console.log(error.code, ' : ', error.message);
+    });
   }
   render() {
     return (
@@ -20,19 +46,38 @@ class Signup extends Component {
         <h1>FRANCHISEE SIGN-UP</h1>
         <h5>CREATE AN ACCOUNT TO GET STARTED WITH COCOAGRINDER FRANCHISE</h5>
         <FlatButton onClick={this.props.toLogin} fullWidth={true} className="toLogin" label="Back to Login" />
-        <form>
+        <form onSubmit={this.signup}>
           <DatePicker
             required={true}
             floatingLabelText="Date"
             className="date"
             id="date"
-            name="name"
+            name="date"
             value={this.state.date}
             formatDate={new DateTimeFormat('en-US', {
               day: 'numeric',
               month: 'long',
               year: 'numeric',}).format}
           />
+          <Divider className="divider"/>
+          <h5>LOGIN INFORMATION</h5>
+          <TextField
+            required={true}
+            fullWidth={true}
+            id="username" name="username"
+            floatingLabelText="Full Name / Username" />
+          <TextField
+            required={true}
+            fullWidth={true}
+            type="email"
+            id="loginemail" name="loginemail"
+            floatingLabelText="Login Email" />
+          <TextField
+            required={true}
+            fullWidth={true}
+            type="password"
+            id="loginpassword" name="loginpassword"
+            floatingLabelText="Login Password" />
           <Divider className="divider"/>
           <h5>PERSONAL INFORMATION</h5>
           <TextField
@@ -132,17 +177,17 @@ class Signup extends Component {
             value={this.state.btypeval}
             fullWidth={true}
           >
-            <MenuItem value={1} onClick={()=>{this.setState({btypeval:1})}} primaryText="Restaurant" />
-            <MenuItem value={2} onClick={()=>{this.setState({btypeval:2})}} primaryText="Cafe" />
-            <MenuItem value={3} onClick={()=>{this.setState({btypeval:3})}} primaryText="Bakery" />
-            <MenuItem value={4} onClick={()=>{this.setState({btypeval:4})}} primaryText="University" />
-            <MenuItem value={5} onClick={()=>{this.setState({btypeval:5})}} primaryText="School" />
-            <MenuItem value={6} onClick={()=>{this.setState({btypeval:6})}} primaryText="Retail" />
-            <MenuItem value={7} onClick={()=>{this.setState({btypeval:7})}} primaryText="Manufacturer" />
-            <MenuItem value={8} onClick={()=>{this.setState({btypeval:8})}} primaryText="Distributor" />
-            <MenuItem value={9} onClick={()=>{this.setState({btypeval:9})}} primaryText="Corporate" />
-            <MenuItem value={10} onClick={()=>{this.setState({btypeval:10})}} primaryText="Caterer" />
-            <MenuItem value={11} onClick={()=>{this.setState({btypeval:11})}} primaryText="Non-Profit" />
+            <MenuItem value={1} onClick={()=>{this.setState({btypeval:1, btype:'Restaurant'})}} primaryText="Restaurant" />
+            <MenuItem value={2} onClick={()=>{this.setState({btypeval:2, btype:'Cafe'})}} primaryText="Cafe" />
+            <MenuItem value={3} onClick={()=>{this.setState({btypeval:3, btype:'Bakery'})}} primaryText="Bakery" />
+            <MenuItem value={4} onClick={()=>{this.setState({btypeval:4, btype:'University'})}} primaryText="University" />
+            <MenuItem value={5} onClick={()=>{this.setState({btypeval:5, btype:'School'})}} primaryText="School" />
+            <MenuItem value={6} onClick={()=>{this.setState({btypeval:6, btype:'Retail'})}} primaryText="Retail" />
+            <MenuItem value={7} onClick={()=>{this.setState({btypeval:7, btype:'Manufacturer'})}} primaryText="Manufacturer" />
+            <MenuItem value={8} onClick={()=>{this.setState({btypeval:8, btype:'Distributor'})}} primaryText="Distributor" />
+            <MenuItem value={9} onClick={()=>{this.setState({btypeval:9, btype:'Corporate'})}} primaryText="Corporate" />
+            <MenuItem value={10} onClick={()=>{this.setState({btypeval:10, btype:'Caterer'})}} primaryText="Caterer" />
+            <MenuItem value={11} onClick={()=>{this.setState({btypeval:11, btype:'Non-Profit'})}} primaryText="Non-Profit" />
           </SelectField>
           <Divider className="divider" />
           <h5>DELIVERY INFORMATION</h5>

@@ -196,3 +196,10 @@ body{
 .left-signup>div hr:nth-child(2){
   border-color: rgb(0, 188, 212) !important;
 }
+h4{
+  color: black !important;
+  margin-bottom: 2% !important;
+}
+.loggedin-name {
+  text-transform: capitalize;
+}

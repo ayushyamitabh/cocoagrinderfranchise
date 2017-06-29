@@ -10,10 +10,11 @@ class App extends Component {
     this.state = {
       page: 'login'
     };
-    this.pageChanger = this.pageChanger.bind(this);
+    this.toSignup = this.toSignup.bind(this);
     this.toLogin = this.toLogin.bind(this);
+    this.toShop = this.toShop.bind(this);
   }
-  pageChanger(newState) {
+  toSignup() {
     $('.left').addClass('left-signup');
     $('.right').addClass('right-signup');
     setTimeout(()=>{this.setState({page:'signup'})},400);
@@ -25,6 +26,9 @@ class App extends Component {
       $('.right').removeClass('right-signup');
     },1000);
   }
+  toShop(){
+    this.setState({page:'logged'})
+  }
   render() {
     return (
       <div>
@@ -32,8 +36,10 @@ class App extends Component {
           <h2>COCOAGRINDER FRANCHISE</h2>
           <div className="title-underline"></div>
         {
-          this.state.page === 'login' ? <Login changePage={this.pageChanger} /> :
-          <Signup toLogin={this.toLogin} />
+          this.state.page === 'login' ? <Login toSignup={this.toSignup} toShop={this.toShop}/> :
+          this.state.page === 'signup' ? <Signup toLogin={this.toLogin} toShop={this.toShop}/> :
+          this.state.page === 'logged' ? <div>Signed In, shop will appear here</div> :
+          <div> Something went wrong </div>
         }
       </div>
       <div className="right">
