@@ -6,16 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import registerServiceWorker from './registerServiceWorker';
 import * as firebase from 'firebase';
 import './index.css';
-import { MoltinClient } from 'moltin-react';
-const Moltin = MoltinClient({
-  clientId: 'FiIkACdbx4UR4ueX19Vs1td84tVWBcJluUvxYA2etg'
-});
-Moltin.Authenticate().then((response) => {
-  console.log('authenticated', response);
-});
-const products = Moltin.Products.All().then((products) => {
-  console.log(products);
-});
+
 var config = {
   apiKey: "AIzaSyCS6-iikOnF-t6vLskVRbLGJaowIKWSAF8",
   authDomain: "cocoagrinder-af99e.firebaseapp.com",

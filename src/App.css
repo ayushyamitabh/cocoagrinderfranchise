@@ -4,6 +4,9 @@
   font-family: 'Roboto Condensed', sans-serif;
   user-select: none;
 }
+input {
+  user-select: auto !important;
+}
 body{
   background: url('./res/coffee.jpg');
   background-position: bottom !important;
@@ -101,6 +104,28 @@ body{
   background-repeat: no-repeat;*/
   transition: all ease-out 0.5s;
 }
+@media (max-width:1600px) {
+.shop .user-toolbar h4{
+  margin-left: 4% !important;
+}
+.shop .user-logout{
+  margin: 0 !important;
+  margin-left: 69% !important;
+}
+}
+@media (max-width:1440px) {
+  .shop .user-toolbar h4{
+    margin-left: 5% !important;
+  }
+  .shop .user-logout{
+    margin: 0 !important;
+    margin-left: 68% !important;
+  }
+  .shop .cart-icon{
+    padding: 0 !important;
+    padding-top: 2.5% !important;
+  }
+}
 @media (max-width:1024px) {
   .left h1{
     font-size: 3rem;
@@ -108,8 +133,38 @@ body{
   .left h5{
     font-size: 0.7rem;
   }
+  .shop .cart-icon{
+    padding: 0 !important;
+    padding-top: 3% !important;
+    z-index: 5;
+    width: 100%;
+    top: 0;
+    position: sticky !important;
+  }
+  .shop .cart-icon span{
+    right: 47% !important;
+  }
+  .shop .user-logout{
+    margin-left: 60% !important;
+  }
 }
 @media (max-width:768px) {
+  body{
+    background: black !important;
+  }
+  .left {
+    background: black !important;
+    background-color: black !important;
+  }
+  .shop h2{
+    color: black;
+  }
+  .shop:hover h2{
+    color: gray;
+  }
+  .left-signup {
+    background-color: white !important;
+  }
   .right{
     display: none;
   }
@@ -128,6 +183,12 @@ body{
   .left:hover h5{
     color: white;
   }
+  .left-signup:hover h1{
+    color: black !important;
+  }
+  .left-signup:hover h5{
+    color: black !important;
+  }
   .left .form{
     background-color: white;
   }
@@ -142,6 +203,64 @@ body{
   .left .signup-page h6{
     color: black !important;
     font-size: 0.8rem;
+  }
+  .shop .product-card{
+    display: inline-block !important;
+    position: relative !important;
+    width: 40% !important;
+    margin: 0 auto;
+    margin-top: 2%;
+    margin-left: 2%;
+  }
+  .shop .cart-icon{
+    padding: 0 !important;
+    padding-top: 3% !important;
+    width: 100% !important;
+    z-index: 5 !important;
+    top: 0;
+    position: sticky !important;
+  }
+  .shop .cart-icon span{
+    top: 25% !important;
+    right: 45% !important;
+  }
+  .shop .user-toolbar{
+    top: 1% !important;
+  }
+  .shop .user-logout{
+    margin-left: 55% !important;
+  }
+}
+@media (max-width:425px) {
+  .shop {
+    width: 100%;
+    background-color: white;
+    height: auto;
+  }
+  .shop .product-card{
+    display: block !important;
+    position: relative !important;
+    width: 90% !important;
+    margin: 0 auto !important;
+    margin-top: 2% !important;
+  }
+  .shop .cart-icon{
+    width: 105% !important;
+    margin-left:  -5% !important;
+    padding: 0 !important;
+    padding-top: 0% !important;
+  }
+  .shop .cart-icon span{
+    right: 41% !important;
+  }
+  .shop .user-toolbar h4{
+    margin-left: -8% !important;
+  }
+  .shop .user-toolbar{
+    top: 2% !important;
+  }
+  .shop .user-logout{
+    margin-left: 67% !important;
   }
 }
 @media (max-width:375px) {
@@ -166,7 +285,7 @@ body{
 }
 .left-signup {
   width: 100% !important;
-  height: auto !important;
+  /*height: auto !important;*/
   transition: all ease-out 0.3s;
 }
 .left-signup:hover .title-underline{
@@ -207,4 +326,51 @@ h4{
 }
 .loggedin-name {
   text-transform: capitalize;
+}
+.shop {
+  width: 100%;
+  height: auto;
+  background: white;
+}
+.shop .product-card{
+  display: inline-block;
+  position: relative;
+  width: 20% ;
+  margin-left: 1%;
+  margin-top: 2%;
+}
+.product-card input {
+  text-align: center !important;
+}
+.product-card>div>div>div{
+  width: 50% !important;
+  margin: -15% auto 0 auto !important;
+}
+.shop .cart-icon{
+  padding: 0 ;
+  padding-top: 3% ;
+  z-index: 4 !important;
+  width: 100% !important;
+  top: 0 !important;
+  position: sticky !important;
+}
+.shop .cart-icon span{
+  right: 48%;
+}
+.shop .user-toolbar{
+  position: sticky !important;
+  top: -1% !important;
+  z-index: 3 !important;
+  background: white;
+  padding-top: 4%;
+}
+.shop .user-toolbar h4{
+  display: inline !important;
+  text-transform: capitalize !important;
+}
+.shop .user-logout{
+  text-align: left !important;
+  width: 10% !important;
+  margin-left: 85%;
+  display: inline-block !important;
 }

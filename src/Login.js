@@ -21,6 +21,22 @@ class Login extends Component {
     this.googleSignIn = this.googleSignIn.bind(this);
   }
   componentDidMount() {
+    firebase.auth().getRedirectResult().then(function(result) {
+      if (result.credential) {
+        var token = result.credential.accessToken;
+      }
+      var user = result.user;
+    }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      var email = error.email;
+      var credential = error.credential;
+    }).then(()=>{
+      var firebaseUser = firebase.auth().currentUser;
+      if (firebaseUser){
+        this.props.toShop();
+      }
+    })
     firebase.auth().onAuthStateChanged((user)=>{
       if (user) {
         this.setState({
@@ -42,8 +58,6 @@ class Login extends Component {
               name: user.displayName
             })
           }
-        }).then(()=>{
-          this.props.toShop();
         })
       } else {
         this.setState({
@@ -54,30 +68,20 @@ class Login extends Component {
     })
   }
   googleSignIn() {
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      var token = result.credential.accessToken;
-      var user = result.user;
-    }).catch(function(error) {
-      var errorCode = error.code;
-      console.log(errorCode);
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      var email = error.email;
-      console.log(email);
-      var credential = error.credential;
-      console.log(credential);
-    }).then(()=>{
-      this.props.toShop();
-    });
+    firebase.auth().signInWithRedirect(provider);
   }
   login(){
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     firebase.auth().signInWithEmailAndPassword(email, password).catch((error)=>{
-      // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      // ...
+      console.log(errorCode, errorMessage);
+    }).then(()=>{
+      var user = firebase.auth().currentUser;
+      if (user) {
+        this.props.toShop();
+      }
     })
   }
   logout(){
@@ -108,7 +112,7 @@ class Login extends Component {
                     <FlatButton onClick={this.props.toShop} fullWidth={true} className="continue" label={`Continue as ${this.state.name}?`} />
                     <FlatButton onClick={this.logout} fullWidth={true} className="logout" label="Logout" />
                 </div> :
-                this.state.logged === false?
+                this.state.logged === false ?
                 <div>
                   <TextField
                     fullWidth={true}
@@ -129,7 +133,7 @@ class Login extends Component {
                   <FlatButton onClick={this.props.toSignup} fullWidth={true} className="signup" label="Sign Up" />
                 </div> :
                 <div>
-                  <img className="loading" src={loading}/>
+                  <img className="loading" src={loading} alt=""/>
                 </div>
               }
               </div>
