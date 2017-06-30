@@ -97,34 +97,16 @@ body{
   right: 0;
   width: 50%;
   height: 100%;
-  /*background-color: black;
-  background-image: url('./res/coffee.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;*/
   transition: all ease-out 0.5s;
 }
+@media (max-width:1920px) {
+
+}
 @media (max-width:1600px) {
-.shop .user-toolbar h4{
-  margin-left: 4% !important;
-}
-.shop .user-logout{
-  margin: 0 !important;
-  margin-left: 69% !important;
-}
+
 }
 @media (max-width:1440px) {
-  .shop .user-toolbar h4{
-    margin-left: 5% !important;
-  }
-  .shop .user-logout{
-    margin: 0 !important;
-    margin-left: 68% !important;
-  }
-  .shop .cart-icon{
-    padding: 0 !important;
-    padding-top: 2.5% !important;
-  }
+
 }
 @media (max-width:1024px) {
   .left h1{
@@ -133,28 +115,14 @@ body{
   .left h5{
     font-size: 0.7rem;
   }
-  .shop .cart-icon{
-    padding: 0 !important;
-    padding-top: 3% !important;
-    z-index: 5;
-    width: 100%;
-    top: 0;
-    position: sticky !important;
-  }
-  .shop .cart-icon span{
-    right: 47% !important;
-  }
-  .shop .user-logout{
-    margin-left: 60% !important;
-  }
 }
 @media (max-width:768px) {
   body{
-    background: black !important;
+    background: white !important;
   }
   .left {
-    background: black !important;
-    background-color: black !important;
+    background: white !important;
+    background-color: white !important;
   }
   .shop h2{
     color: black;
@@ -171,17 +139,23 @@ body{
   .left{
     background: url("./res/coffee.jpg");
     background-position: top;
-    color: white !important;
+    color: black !important;
     width: 100%;
   }
   .left:hover{
     width: 100%;
   }
+  .left h1{
+    color: gray;
+  }
+  .left h5 {
+    color: gray;
+  }
   .left:hover h1{
-    color: white;
+    color: black;
   }
   .left:hover h5{
-    color: white;
+    color: black;
   }
   .left-signup:hover h1{
     color: black !important;
@@ -212,30 +186,15 @@ body{
     margin-top: 2%;
     margin-left: 2%;
   }
-  .shop .cart-icon{
-    padding: 0 !important;
-    padding-top: 3% !important;
-    width: 100% !important;
-    z-index: 5 !important;
-    top: 0;
-    position: sticky !important;
-  }
-  .shop .cart-icon span{
-    top: 25% !important;
-    right: 45% !important;
-  }
-  .shop .user-toolbar{
-    top: 1% !important;
-  }
-  .shop .user-logout{
-    margin-left: 55% !important;
-  }
 }
 @media (max-width:425px) {
   .shop {
     width: 100%;
     background-color: white;
     height: auto;
+  }
+  .left h1{
+    font-size: 2.5rem;
   }
   .shop .product-card{
     display: block !important;
@@ -244,23 +203,8 @@ body{
     margin: 0 auto !important;
     margin-top: 2% !important;
   }
-  .shop .cart-icon{
-    width: 105% !important;
-    margin-left:  -5% !important;
-    padding: 0 !important;
-    padding-top: 0% !important;
-  }
-  .shop .cart-icon span{
-    right: 41% !important;
-  }
-  .shop .user-toolbar h4{
-    margin-left: -8% !important;
-  }
-  .shop .user-toolbar{
-    top: 2% !important;
-  }
-  .shop .user-logout{
-    margin-left: 67% !important;
+  .form {
+    width: 80% !important;
   }
 }
 @media (max-width:375px) {
@@ -339,6 +283,11 @@ h4{
   margin-left: 1%;
   margin-top: 2%;
 }
+.product-card span:first-child {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden;
+}
 .product-card input {
   text-align: center !important;
 }
@@ -346,31 +295,61 @@ h4{
   width: 50% !important;
   margin: -15% auto 0 auto !important;
 }
-.shop .cart-icon{
-  padding: 0 ;
-  padding-top: 3% ;
-  z-index: 4 !important;
+.user-toolbar{
+  color: black !important;
   width: 100% !important;
-  top: 0 !important;
-  position: sticky !important;
+  position: sticky;
+  top: -0.5%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  z-index: 2;
+  border-bottom: 2px solid black;
+  background-color: white;
 }
-.shop .cart-icon span{
-  right: 48%;
+.user-toolbar-content{
+  color: black !important;
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
 }
-.shop .user-toolbar{
-  position: sticky !important;
-  top: -1% !important;
-  z-index: 3 !important;
-  background: white;
-  padding-top: 4%;
+.user-toolbar-name{
+  color: black !important;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  width: 33%;
+  text-transform: capitalize;
+  text-overflow: ellipsis;
 }
-.shop .user-toolbar h4{
-  display: inline !important;
-  text-transform: capitalize !important;
+.user-toolbar-cart{
+  color: black !important;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  width: 33%;
 }
-.shop .user-logout{
+.user-toolbar-cart .cart-icon{
+  padding: 0 !important;
+  margin-left: -2.5% !important;
+}
+.user-toolbar-cart .cart-icon span{
+  top: 20% !important;
+  right: -20% !important;
+}
+.user-toolbar-button{
+  color: black !important;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  padding: 0 9%;
+  width: 15%;
+}
+.cart-items{
   text-align: left !important;
-  width: 10% !important;
-  margin-left: 85%;
-  display: inline-block !important;
+}
+.cart-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 99%;
+  left: 0.5%;
 }
