@@ -70,7 +70,8 @@ class Login extends Component {
   googleSignIn() {
     firebase.auth().signInWithRedirect(provider);
   }
-  login(){
+  login(e){
+    e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     firebase.auth().signInWithEmailAndPassword(email, password).catch((error)=>{
@@ -114,20 +115,22 @@ class Login extends Component {
                 </div> :
                 this.state.logged === false ?
                 <div>
-                  <TextField
-                    fullWidth={true}
-                    className="email"
-                    id="email"
-                    hintText="E-mail" />
+                  <form onSubmit={this.login}>
+                    <TextField
+                      fullWidth={true}
+                      className="email"
+                      id="email"
+                      hintText="E-mail" />
+                      <br />
+                    <TextField
+                      fullWidth={true}
+                      type="password"
+                      id="password"
+                      className="password"
+                      hintText="Password" />
                     <br />
-                  <TextField
-                    fullWidth={true}
-                    type="password"
-                    id="password"
-                    className="password"
-                    hintText="Password" />
-                  <br />
-                  <FlatButton fullWidth={true} onClick={this.login} className="login" label="Login" />
+                    <FlatButton fullWidth={true} type="submit" className="login" label="Login" />
+                  </form>
                   <FlatButton fullWidth={true} onClick={this.googleSignIn} className="logingoogle" icon={<img src={google} alt="" />} label="Login with Google" />
                   <Divider className="divider"/>
                   <FlatButton onClick={this.props.toSignup} fullWidth={true} className="signup" label="Sign Up" />
