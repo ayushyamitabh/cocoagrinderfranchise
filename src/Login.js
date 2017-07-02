@@ -36,7 +36,6 @@ class Login extends Component {
     }).then(()=>{
       var firebaseUser = firebase.auth().currentUser;
       if (firebaseUser){
-        this.props.toShop();
       }
     })
     firebase.auth().onAuthStateChanged((user)=>{
@@ -49,7 +48,6 @@ class Login extends Component {
           if (!snap.val()) {
             $('.left').addClass('left-signup');
             $('.right').addClass('right-signup');
-            setTimeout(()=>{this.setState({page:'signup'})},400);
             this.setState({
               logged: 'getinfo',
               name: user.displayName
@@ -89,7 +87,7 @@ class Login extends Component {
     }).then(()=>{
       var user = firebase.auth().currentUser;
       if (user) {
-        this.props.toShop();
+        // this.props.toShop();
       }
     })
   }
@@ -109,44 +107,43 @@ class Login extends Component {
   render() {
     return (
       <div>
-          <Dialog
-            open={this.state.dialogopen}
-            title="Login Error"
-            actions={<FlatButton label="OK" primary={true} keyboardFocused={true} onTouchTap={this.handleDialogClose}/>}
-            modal={false}
-            onRequestClose={this.handleDialogClose} >
-            <h6>{this.state.errorCode}</h6>
-            <br />
-            <h3>{this.state.errorMessage}</h3>
-          </Dialog>
-          { this.state.logged === 'getinfo' ?
-            <div>
-              <GetInfo logout={this.logout} toShop={this.props.toShop}/>
-            </div> :
+        <Dialog
+          open={this.state.dialogopen}
+          title="Login Error"
+          actions={<FlatButton label="OK" primary={true} keyboardFocused={true} onTouchTap={this.handleDialogClose}/>}
+          modal={false}
+          onRequestClose={this.handleDialogClose} >
+          <h6>{this.state.errorCode}</h6>
+          <br />
+          <h3>{this.state.errorMessage}</h3>
+        </Dialog>
+        {
+          this.state.logged === 'getinfo' ? <GetInfo logout={this.logout} toShop={this.props.toShop}/> :
             <div>
               <h1>FRANCHISEE LOGIN</h1>
               <h5>MANAGE YOUR COCOAGRINDER FRANCHISEE ACCOUNT</h5>
               <div className="form">
-              {
-                this.state.logged === true ?
-                <div>
-                  <h4>
-                    You're logged in as <span className="loggedin-name">{this.state.name}</span>
+                {
+                  this.state.logged === true ?
+                  <div>
+                    <h4>
+                      You're logged in as <span className="loggedin-name">{this.state.name}</span>
                   </h4>
-                    <FlatButton onClick={this.props.toShop} fullWidth={true} className="continue" label={`Continue as ${this.state.name}?`} />
-                    <FlatButton onClick={this.logout} fullWidth={true} className="logout" label="Logout" />
+                  <FlatButton onClick={this.props.toShop} fullWidth={true} className="continue" label={`Continue as ${this.state.name}?`} />
+                  <FlatButton disabled={true} fullWidth={true} label="Edit Profile (Coming Soon)" />
+                  <FlatButton onClick={this.logout} fullWidth={true} className="logout" label="Logout" />
                 </div> :
                 this.state.logged === false ?
                 <div>
                   <form onSubmit={this.login}>
                     <TextField
                       type="email"
-                      autocomplete="off"
+                      autoComplete="off"
                       fullWidth={true}
                       className="email"
                       id="email"
                       hintText="E-mail" />
-                      <br />
+                    <br />
                     <TextField
                       fullWidth={true}
                       type="password"
@@ -164,10 +161,10 @@ class Login extends Component {
                   <img className="loading" src={loading} alt=""/>
                 </div>
               }
-              </div>
             </div>
-          }
-        </div>
+          </div>
+        }
+      </div>
     );
   }
 }

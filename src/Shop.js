@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import * as firebase from 'firebase';
 import loading from './res/loading.gif';
-import {Badge, CardText, CardHeader, IconButton, Divider, FlatButton, RaisedButton, Card, CardTitle, CardActions, TextField, Snackbar, Drawer, MenuItem} from 'material-ui';
+import {Dialog, Badge, CardText, CardHeader, IconButton, Divider, FlatButton, RaisedButton, Card, CardTitle, CardActions, TextField, Snackbar, Drawer, MenuItem} from 'material-ui';
 import Person from 'material-ui/svg-icons/social/person';
 import Checkout from './Checkout.js';
 import $ from 'jquery';
@@ -15,8 +15,8 @@ class Shop extends Component {
       snackbaropen: false,
       cartData: [],
       cart: {},
-      quantity: 0,
-      draweropen: false
+      draweropen: false,
+      dialogopen: false
     }
     this.logout = this.logout.bind(this);
     this.handleSnackbarRequestClose = this.handleSnackbarRequestClose.bind(this);
@@ -27,6 +27,7 @@ class Shop extends Component {
     this.prepareCheckout = this.prepareCheckout.bind(this);
     this.emptyCart = this.emptyCart.bind(this);
     this.backToShop = this.backToShop.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
   componentDidMount(){
     $('.left').addClass('shop');
@@ -35,6 +36,20 @@ class Shop extends Component {
         products: inventory.val(),
         user: firebase.auth().currentUser.displayName
       })
+    })
+    var uid = firebase.auth().currentUser.uid;
+    firebase.database().ref(`Users/${uid}/cart`).once('value',(snap)=>{
+      if (snap.val()){
+        var cart = snap.val();
+        var quantity = 0;
+        Object.keys(cart).map((key, index)=>{
+          quantity = quantity + parseInt(cart[key].singles) + parseInt(cart[key].case);
+        })
+        this.setState({
+          cart: cart,
+          quantity: quantity
+        })
+      }
     })
   }
   componentWillUnmount() {
@@ -84,6 +99,8 @@ class Shop extends Component {
         snackbaritem: name,
         productQuantity: `${quantity} x`
       })
+      var uid = firebase.auth().currentUser.uid;
+      firebase.database().ref(`Users/${uid}/cart`).set(cartcurr);
     } else {
       cartcurr[name] = {singles:quantity,case:0};
       var currQ = parseInt(this.state.quantity);
@@ -95,6 +112,8 @@ class Shop extends Component {
         snackbaritem: name,
         productQuantity: `${quantity} x`
       })
+      var uid = firebase.auth().currentUser.uid;
+      firebase.database().ref(`Users/${uid}/cart`).set(cartcurr);
     }
   }
   addCase(num, name){
@@ -112,6 +131,8 @@ class Shop extends Component {
         cart: cartcurr,
         quantity: currQ
       })
+      var uid = firebase.auth().currentUser.uid;
+      firebase.database().ref(`Users/${uid}/cart`).set(cartcurr);
     } else {
       cartcurr[name] = {singles:0,case:quantity};
       var currQ = parseInt(this.state.quantity);
@@ -120,6 +141,8 @@ class Shop extends Component {
         cart: cartcurr,
         quantity: currQ
       })
+      var uid = firebase.auth().currentUser.uid;
+      firebase.database().ref(`Users/${uid}/cart`).set(cartcurr);
     }
     this.setState({
       snackbaropen: true,
@@ -134,6 +157,8 @@ class Shop extends Component {
       cart: cart,
       quantity: 0
     })
+    var uid = firebase.auth().currentUser.uid;
+    firebase.database().ref(`Users/${uid}/cart`).set(cart);
   }
   removeItem(key) {
     var cart = this.state.cart;
@@ -145,17 +170,39 @@ class Shop extends Component {
       cart: cart,
       quantity: qTotal
     })
+    var uid = firebase.auth().currentUser.uid;
+    firebase.database().ref(`Users/${uid}/cart`).set(cart);
   }
-  backToShop() {
+  backToShop(empty) {
+    if (empty) {
+      this.emptyCart();
+      this.setState({
+        dialogopen: true
+      })
+    }
     firebase.database().ref('Inventory').once('value',(inventory)=>{
       this.setState({
         products: inventory.val()
       })
     })
   }
+  handleDialogClose() {
+    this.setState({
+      dialogopen: false
+    })
+  }
   render() {
     return(
       <div className="shop">
+        <Dialog
+          open={this.state.dialogopen}
+          title="Order Placed"
+          actions={<FlatButton label="OK" primary={true} keyboardFocused={true} onTouchTap={this.handleDialogClose}/>}
+          modal={false}
+          onRequestClose={this.handleDialogClose} >
+          Your order has been placed!<br />
+          You will receive a confirmation email soon!<br />
+        </Dialog>
         {
           this.state.products === 'loading' ? <img src={loading} alt="" /> :
           this.state.products === 'checkout' ? <Checkout backToShop={this.backToShop} /> :
@@ -173,7 +220,7 @@ class Shop extends Component {
                   </Badge>
                 </div>
                 <div className="user-toolbar-button">
-                    <FlatButton fullWidth={true} label="Logout" onClick={this.logout} />
+                    <FlatButton fullWidth={true} label='Logout' onClick={this.logout} />
                 </div>
               </div>
             </div>
@@ -225,7 +272,7 @@ class Shop extends Component {
                 {
                   Object.keys(this.state.cart).map((key, index)=>{
                     return(
-                      <div className="cart-items-single"  key={`cartitems${index}`} id={`cartitems${index}`}>
+                      <div className="cart-items-single"  key={index} id={`cartitems${index}`}>
                         <h4>{key}</h4>
                         <h6><strong>Singles: </strong>{this.state.cart[key]['singles']}</h6>
                         <h6><strong>Cases: </strong>{this.state.cart[key]['case']}</h6>
@@ -236,11 +283,11 @@ class Shop extends Component {
                 }
               </div>
             }
-          </div>
-          <div className="cart-bottom">
-            <RaisedButton label="Start Checkout" onClick={this.prepareCheckout} secondary={true} fullWidth={true} disabled={this.state.cart.length === 0}/>
-            <RaisedButton label="Empty Cart" onClick={this.emptyCart} fullWidth={true}/>
-            <RaisedButton label="Hide Cart" onClick={this.handleDrawerRequestClose} primary={true} fullWidth={true}/>
+            <div className="cart-bottom">
+              <RaisedButton label="Start Checkout" onClick={this.prepareCheckout} secondary={true} fullWidth={true} disabled={Object.keys(this.state.cart).length === 0}/>
+              <RaisedButton label="Empty Cart" onClick={this.emptyCart} fullWidth={true}/>
+              <RaisedButton label="Hide Cart" onClick={this.handleDrawerRequestClose} primary={true} fullWidth={true}/>
+            </div>
           </div>
         </Drawer>
         <Snackbar
