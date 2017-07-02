@@ -5,7 +5,7 @@ import * as firebase from 'firebase';
 import GetInfo from './GetInfo.js';
 import $ from 'jquery';
 import loading from './res/loading.gif';
-import {TextField, FlatButton, Divider} from 'material-ui';
+import {TextField, FlatButton, Divider, Dialog} from 'material-ui';
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -14,10 +14,12 @@ class Login extends Component {
     super(props);
     this.state={
       logged: 'loading',
-      name : ''
+      name : '',
+      dialogopen: false
     }
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
     this.googleSignIn = this.googleSignIn.bind(this);
   }
   componentDidMount() {
@@ -77,7 +79,13 @@ class Login extends Component {
     firebase.auth().signInWithEmailAndPassword(email, password).catch((error)=>{
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      if (error) {
+        this.setState({
+          dialogopen: true,
+          errorCode: errorCode,
+          errorMessage: `${errorMessage}\nIf you logged in with Google last time, make sure to login in with Google.`
+        })
+      }
     }).then(()=>{
       var user = firebase.auth().currentUser;
       if (user) {
@@ -93,9 +101,24 @@ class Login extends Component {
       $('.right').removeClass('right-signup');
     },1000);
   }
+  handleDialogClose() {
+    this.setState({
+      dialogopen: false
+    })
+  }
   render() {
     return (
       <div>
+          <Dialog
+            open={this.state.dialogopen}
+            title="Login Error"
+            actions={<FlatButton label="OK" primary={true} keyboardFocused={true} onTouchTap={this.handleDialogClose}/>}
+            modal={false}
+            onRequestClose={this.handleDialogClose} >
+            <h6>{this.state.errorCode}</h6>
+            <br />
+            <h3>{this.state.errorMessage}</h3>
+          </Dialog>
           { this.state.logged === 'getinfo' ?
             <div>
               <GetInfo logout={this.logout} toShop={this.props.toShop}/>
@@ -117,6 +140,8 @@ class Login extends Component {
                 <div>
                   <form onSubmit={this.login}>
                     <TextField
+                      type="email"
+                      autocomplete="off"
                       fullWidth={true}
                       className="email"
                       id="email"
