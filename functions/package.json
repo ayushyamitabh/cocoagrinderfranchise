@@ -1,0 +1,9 @@
+{
+  "name": "email-confirmation-functions",
+  "description": "Send Email confirmation upon sign up to a Mailing list Firebase Functions sample",
+  "dependencies": {
+    "firebase-admin": "^4.2.1",
+    "firebase-functions": "^0.5.1",
+    "nodemailer": "^2.4.1"
+  }
+}
