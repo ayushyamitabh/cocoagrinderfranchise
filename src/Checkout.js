@@ -65,7 +65,8 @@ class Checkout extends Component {
     //                --- user : uid
     var orderData = {
       cart: this.state.cart,
-      user: this.state.uid
+      user: this.state.uid,
+      confirmed: false
     }
     var nextNumber = parseInt(this.state.orderNum) + 1;
     firebase.database().ref(`Orders/${this.state.orderNum}`).set(orderData);
@@ -104,8 +105,8 @@ class Checkout extends Component {
           <TextField onChange={this.updateData} id="billingemail" fullWidth={true} floatingLabelText="E-Mail" value={this.state.userData.billingemail}/>
           {
             this.state.userData.tax ?
-            <TextField onChange={this.updateData} id="tax" fullWidth={true} floatingLabelText="Tax" value={this.state.userData.tax}/> :
-            <TextField onChange={this.updateData} id="itin" fullWidth={true} floatingLabelText="ITIN" value={this.state.userData.itin}/>
+            <TextField onChange={this.updateData} disabled={true} id="tax" fullWidth={true} floatingLabelText="Tax" value={this.state.userData.tax}/> :
+            <TextField onChange={this.updateData} disabled={true} id="itin" fullWidth={true} floatingLabelText="ITIN" value={this.state.userData.itin}/>
           }
           <Divider className="divider" />
           <br />

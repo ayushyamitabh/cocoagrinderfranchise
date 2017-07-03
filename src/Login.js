@@ -5,7 +5,7 @@ import * as firebase from 'firebase';
 import GetInfo from './GetInfo.js';
 import $ from 'jquery';
 import loading from './res/loading.gif';
-import {TextField, FlatButton, Divider, Dialog} from 'material-ui';
+import {TextField, FlatButton, RaisedButton, Divider, Dialog} from 'material-ui';
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -137,6 +137,7 @@ class Login extends Component {
                 <div>
                   <form onSubmit={this.login}>
                     <TextField
+                      required={true}
                       type="email"
                       autoComplete="off"
                       fullWidth={true}
@@ -145,15 +146,18 @@ class Login extends Component {
                       hintText="E-mail" />
                     <br />
                     <TextField
+                      required={true}
                       fullWidth={true}
                       type="password"
                       id="password"
                       className="password"
                       hintText="Password" />
                     <br />
-                    <FlatButton fullWidth={true} type="submit" className="login" label="Login" />
+                    <RaisedButton primary={true} fullWidth={true} type="submit" className="login" label="Sign In" />
                   </form>
-                  <FlatButton fullWidth={true} onClick={this.googleSignIn} className="logingoogle" icon={<img src={google} alt="" />} label="Login with Google" />
+                  {/*
+                    <FlatButton fullWidth={true} onClick={this.googleSignIn} className="logingoogle" icon={<img src={google} alt="" />} label="Login with Google" />
+                  */}
                   <Divider className="divider"/>
                   <FlatButton onClick={this.props.toSignup} fullWidth={true} className="signup" label="Sign Up" />
                 </div> :

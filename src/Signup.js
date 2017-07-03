@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FlatButton, RaisedButton, Divider, DatePicker, TextField, SelectField, MenuItem} from 'material-ui';
+import {FlatButton, Dialog, RaisedButton, Divider, DatePicker, TextField, SelectField, MenuItem} from 'material-ui';
 import * as firebase from 'firebase';
 import $ from 'jquery';
 
@@ -9,22 +9,43 @@ class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date()
+      date: new Date(),
+      dialogopen: false,
+      dialogtitle: '',
+      dialogmessage: ''
     };
-    this.handleOption = this.handleOption.bind(this);
     this.signup = this.signup.bind(this);
-  }
-  handleOption(event){
-    console.log(event);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
   signup(e){
     e.preventDefault();
+    var email = document.getElementById('loginemail').value;
+    var conemail = document.getElementById('confirmemail').value;
+    var password = document.getElementById('loginpassword').value;
+    var confirmpassword = document.getElementById('confirmpassword').value;
+    if (email !== conemail) {
+      this.setState({
+        dialogopen: true,
+        dialogtitle:'E-Mail Mismatch',
+        dialogmessage:'The login emails you entered do not match.'
+      })
+      return;
+    }
+    if (password !== confirmpassword) {
+      this.setState ({
+        dialogopen: true,
+        dialogtitle:'Password Mismatch',
+        dialogmessage:'The login passwords you entered do not match.'
+      })
+      return;
+    }
     var formData = {};
     $('input').each(function(){
       formData[this.name] = this.value;
     })
     formData['btype'] = this.state.btype;
     formData['deldetails'] = document.getElementById('deldetails').value;
+    formData['welcomed'] = false;
     firebase.auth().createUserWithEmailAndPassword(formData.loginemail, formData.loginpassword).then((user)=>{
       firebase.database().ref(`Users/${user.uid}`).set(formData).then(()=>{
         user.updateProfile({
@@ -40,9 +61,25 @@ class Signup extends Component {
       console.log(error.code, ' : ', error.message);
     });
   }
+  handleDialogClose(){
+    this.setState({
+      dialogopen:false,
+      dialogtitle:'',
+      dialogmessage:''
+    })
+  }
   render() {
     return (
       <div className="signup-page">
+        <Dialog
+          title={this.state.dialogtitle}
+          actions={<FlatButton label="Ok" onTouchTap={this.handleDialogClose}/>}
+          modal={false}
+          open={this.state.dialogopen}
+          onRequestClose={this.handleClose}
+        >
+          {this.state.dialogmessage}
+        </Dialog>
         <h1>FRANCHISEE SIGN-UP</h1>
         <h5>CREATE AN ACCOUNT TO GET STARTED WITH COCOAGRINDER FRANCHISE</h5>
         <FlatButton onClick={this.props.toLogin} fullWidth={true} className="toLogin" label="Back to Login" />
@@ -75,9 +112,21 @@ class Signup extends Component {
           <TextField
             required={true}
             fullWidth={true}
+            type="email"
+            id="confirmemail" name="confirmemail"
+            floatingLabelText="Confirm Email" />
+          <TextField
+            required={true}
+            fullWidth={true}
             type="password"
             id="loginpassword" name="loginpassword"
             floatingLabelText="Login Password" />
+          <TextField
+            required={true}
+            fullWidth={true}
+            type="password"
+            id="confirmpassword" name="confirmpassword"
+            floatingLabelText="Confirm Password" />
           <Divider className="divider"/>
           <h5>PERSONAL INFORMATION</h5>
           <TextField
