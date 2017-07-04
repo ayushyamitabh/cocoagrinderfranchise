@@ -3,13 +3,17 @@
 # dependencies
 /node_modules
 /functions/node_modules
+
 # testing
 /coverage
 
 # production
 /build
+Inventory.xlsx
 
 # misc
+*.xlsx
+*.XLSX
 .DS_Store
 .env.local
 .env.development.local
