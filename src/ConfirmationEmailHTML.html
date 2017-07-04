@@ -1,0 +1,68 @@
+{`<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome to CocoaGrinder Franchise</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+      img {
+        width: 30%;
+        margin-left: 35%;
+      }
+      a{
+        font-style: normal;
+        text-decoration: underline;
+        color: rgba(100,100,255,0.6);
+      }
+      h1 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      h3{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        margin-top: 2%;
+      }
+      h4{
+        margin-top: 0.5%;
+        margin-bottom: 0.5%;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+      }
+      .divider {
+        position: relative;
+        width: 100%;
+        height: 1px;
+        background: black;
+        margin-bottom: 1%;
+      }
+      .content {
+        width: 70%;
+        margin-left: 15%;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="https://static1.squarespace.com/static/59055811ff7c50866d9378c4/t/59055cc4f7e0ab75890c841f/1493523654409/cropped-CG-LOGO-WHITE.png?format=500w" />
+    <h1>CocoaGrinder Franchise</h1>
+    <div class="content">
+      <div class="divider"></div>
+      <h3>Dear ${userData.username},</h3>
+      <h4>We are pleased to welcome you to the CocoaGrinder Franchise team! It's great to have you with us!</h4>
+      <h4>You can visit the <a href="https://order.cocoagrinderfranchise.com">CocoaGrinder Franchisee Portal</a> to order items.</h4>
+      <h4>You will have a chance to change your billing and delivery details before every checkout. Stay on the look out for new features we're working on.</h4>
+      <div class="divider"></div>
+      <h4>Your login details are: </h4>
+      <h4><strong>Login E-mail: </strong>${userData.loginemail}</h4>
+      <h4><strong>Password: </strong>${userData.loginpassword}</h4>
+      <div class="divider"></div>
+      <h4>Thank you,</h4>
+      <h4>CocoaGrinder Franchise Team</h4>
+      <h4><a href="https://www.cocoagrindernyc.com">CocoaGrinder NYC</a></h4>
+      <h4><a href="https://www.cocoagrinderfranchise.com">CocoaGrinder Franchise</a></h4>
+    </div>
+  </body>
+</html>
+`}

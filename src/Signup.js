@@ -12,7 +12,8 @@ class Signup extends Component {
       date: new Date(),
       dialogopen: false,
       dialogtitle: '',
-      dialogmessage: ''
+      dialogmessage: '',
+      dialogdismiss: false
     };
     this.signup = this.signup.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
@@ -39,6 +40,12 @@ class Signup extends Component {
       })
       return;
     }
+    this.setState({
+      dialogopen: true,
+      dialogtitle:'Signing Up...',
+      dialogmessage:'Please wait while we create your account. This should only take a moment.',
+      dialogdismiss: true
+    })
     var formData = {};
     $('input').each(function(){
       formData[this.name] = this.value;
@@ -52,6 +59,7 @@ class Signup extends Component {
           displayName: formData.username
         }).then(()=>{
           console.log("Profile updated");
+          this.handleDialogClose();
           this.props.toShop();
         }, (error)=>{
           console.log("Error updating profile");
@@ -65,7 +73,8 @@ class Signup extends Component {
     this.setState({
       dialogopen:false,
       dialogtitle:'',
-      dialogmessage:''
+      dialogmessage:'',
+      dialogdismiss:false
     })
   }
   render() {
@@ -73,7 +82,7 @@ class Signup extends Component {
       <div className="signup-page">
         <Dialog
           title={this.state.dialogtitle}
-          actions={<FlatButton label="Ok" onTouchTap={this.handleDialogClose}/>}
+          actions={<FlatButton label="Ok" disabled={this.state.dialogdismiss} onTouchTap={this.handleDialogClose}/>}
           modal={false}
           open={this.state.dialogopen}
           onRequestClose={this.handleClose}
